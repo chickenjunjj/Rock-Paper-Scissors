@@ -1,16 +1,22 @@
 import random
 import numpy
 class RockPaperScissors:
+    '''
+    Global variables of how many times each weapon is played and how many times the player won/lost
+    '''
     def __init__(self):
         self.player_moves = ["r", "p", "s"]
         self.win_lose = []
         self.play()
-
+    '''
+    Gets the choice of the player and if they press q, it ends and prints all the stats
+    '''
     def play(self):
         AI_choice = self.my_choice()
         print("[r] rock")
         print("[p] paper")
         print("[s] scissors")
+        print("[q] quit")
         choice = input().lower()
         if choice == 'q':
             print("\nPlayed rock:    ", self.player_moves.count("r") - 1, "times")
@@ -30,7 +36,9 @@ class RockPaperScissors:
         print("Computer: " + AI_choice + "\n")
         tie = self.winner(choice, AI_choice)
         self.play()
-
+    '''
+    Checks the choice of the player and prints it out, if it is invalid, it prints invalid command
+    '''
     def valid_command(self, choice):
         if choice == "r":
             return ("You:      rock")
@@ -41,7 +49,9 @@ class RockPaperScissors:
         else:
             return ("Invalid command \n")
 
-        
+    '''
+    Choice of the computer, probability based. If the user plays a lot of one weapon, it will have a higher chance to choose the weapon to counter it
+    '''    
     def my_choice(self):
         number = numpy.random.choice(numpy.arange(0, 3), p = [self.player_moves.count("s")/len(self.player_moves), self.player_moves.count("r")/len(self.player_moves), self.player_moves.count("p")/len(self.player_moves)])
         if number == 0:
@@ -50,7 +60,9 @@ class RockPaperScissors:
             return ("paper")
         elif number == 2:
             return ("scissors")
-
+    '''
+    Checks if the player won, lost or tied
+    '''
     def win_lose_tie(self, choice1, choice2, choice3, AI_choice):
         if AI_choice == choice1:
             print("You win! \n")
@@ -63,7 +75,9 @@ class RockPaperScissors:
         elif AI_choice == choice3:
             print("You lose \n")
             self.win_lose.append("l")
-
+    '''
+    Calls the previous function with different arguments
+    '''
     def winner(self, choice, AI_choice):
         if choice == "r":
             self.win_lose_tie("scissors", "rock", "paper", AI_choice)
